@@ -11,3 +11,9 @@ export interface IUser extends Document {
     isEnabled: boolean;
     isDeleted: boolean;
 }
+
+export interface ISearchUser {
+    from: number;
+    size: number;
+    search?: string
+}

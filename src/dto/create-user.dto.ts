@@ -1,9 +1,9 @@
-import { IsString, IsNotEmpty, MinLength, IsEmail, Length, IsDate, Allow, IsInt, IsBoolean } from "class-validator";
+import { IsString, IsNotEmpty, MinLength, IsEmail, Length, IsDateString, Allow, IsInt, IsBoolean } from "class-validator";
 
 export class CreateUserDto {
     @IsString()
     @IsNotEmpty()
-    @Length(3, 16)
+    @Length(3, 20)
     readonly name: string;
 
     @IsEmail()
@@ -18,10 +18,12 @@ export class CreateUserDto {
     @Length(10)
     readonly phone: string;
 
-    @IsDate()
+    @IsDateString()
     readonly dob: Date;
 
-    @Allow({ groups: ['male', 'female', 'others'] })
+    // @Allow({ groups: ['male', 'female', 'others'] })
+    @IsString()
+    @IsNotEmpty()
     readonly gender: string;
 
     @IsInt()
