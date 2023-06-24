@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Put, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Put, Delete, Query, Res } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from 'src/schema/user.schema';
 import { CreateUserDto } from 'src/dto/create-user.dto';
@@ -26,7 +26,7 @@ export class UserController {
         }
     }
 
-    @Patch('/:id')
+    @Patch(':id')
     async updateUser(@Res() response, @Param('id') userId: string, @Body() user: UpdateUserDto): Promise<User> {
         try {
             const result = await this.userService.updateUser(userId, user);
@@ -38,6 +38,23 @@ export class UserController {
             return response.status(HttpStatus.BAD_REQUEST).json({
                 statusCode: 400,
                 message: 'Error: User not updated!',
+                error: 'Bad Request'
+            });
+        }
+    }
+
+    @Delete(':id')
+    async deleteUser(@Res() response, @Param('id') userId: string): Promise<User> {
+        try {
+            const result = await this.userService.deleteUser(userId);
+            return response.status(HttpStatus.OK).json({
+                message: 'User has been deleted successfully',
+                data: result
+            });
+        } catch (error) {
+            return response.status(HttpStatus.BAD_REQUEST).json({
+                statusCode: 400,
+                message: 'Error: User not deleted!',
                 error: 'Bad Request'
             });
         }
@@ -57,6 +74,23 @@ export class UserController {
             return response.status(HttpStatus.BAD_REQUEST).json({
                 statusCode: 400,
                 message: 'Error: Not able to fetch user list',
+                error: 'Bad Request'
+            });
+        }
+    }
+
+    @Get(':id')
+    async getAUsers(@Res() response, @Param('id') userId: string) {
+        try {
+            const result = await this.userService.getAUser(userId);
+            return response.status(HttpStatus.OK).json({
+                message: 'User by Id',
+                data: result
+            });
+        } catch (error) {
+            return response.status(HttpStatus.BAD_REQUEST).json({
+                statusCode: 400,
+                message: 'Error: Not able to fetch user',
                 error: 'Bad Request'
             });
         }
