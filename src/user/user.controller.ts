@@ -88,11 +88,7 @@ export class UserController {
                 data: result
             });
         } catch (error) {
-            return response.status(HttpStatus.BAD_REQUEST).json({
-                statusCode: 400,
-                message: 'Error: Not able to fetch user',
-                error: 'Bad Request'
-            });
+            return response.status(error.status).json(error.response);
         }
     }
 }
