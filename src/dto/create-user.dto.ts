@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MinLength, IsEmail, Length, IsDateString, Allow, IsInt, IsBoolean } from "class-validator";
+import { IsString, IsNotEmpty, MinLength, IsEmail, Length, IsDateString, Allow, IsInt, IsBoolean, IsEnum } from "class-validator";
 import { Gender } from "src/schema/user.schema";
 
 export class CreateUserDto {
@@ -22,12 +22,12 @@ export class CreateUserDto {
     @IsDateString()
     readonly dob: Date;
 
-    // @Allow({ groups: ['male', 'female', 'others'] })
-    @IsString()
     @IsNotEmpty()
+    @IsEnum(Gender)
     readonly gender: Gender;
 
     @IsInt()
+    @IsEnum({ SUPER_ADMIN: 0, CUSTOMER: 1 })
     readonly role: number;
 
     @IsBoolean()
