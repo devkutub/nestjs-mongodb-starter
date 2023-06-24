@@ -3,6 +3,12 @@ import { HydratedDocument } from "mongoose";
 
 export type UserDocument = HydratedDocument<User>;
 
+export enum Gender {
+    MALE = 'male',
+    FEMALE = 'female',
+    OTHERS = 'others'
+}
+
 @Schema()
 export class User {
     @Prop()
@@ -18,7 +24,7 @@ export class User {
     phone: string;
 
     @Prop()
-    gender: string;
+    gender: Gender;
 
     @Prop()
     dob: Date;

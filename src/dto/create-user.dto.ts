@@ -1,4 +1,5 @@
 import { IsString, IsNotEmpty, MinLength, IsEmail, Length, IsDateString, Allow, IsInt, IsBoolean } from "class-validator";
+import { Gender } from "src/schema/user.schema";
 
 export class CreateUserDto {
     @IsString()
@@ -24,7 +25,7 @@ export class CreateUserDto {
     // @Allow({ groups: ['male', 'female', 'others'] })
     @IsString()
     @IsNotEmpty()
-    readonly gender: string;
+    readonly gender: Gender;
 
     @IsInt()
     readonly role: number;
