@@ -1,17 +1,20 @@
-import { Body, Controller, Get, HttpStatus, Param, Patch, Put, Delete, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Patch, Put, Delete, Query, Res, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from 'src/schema/user.schema';
 import { CreateUserDto } from 'src/dto/create-user.dto';
 import { ISearchUser } from 'src/interface/user.interface';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('users')
 export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Put()
-    async createUser(@Res() response, @Body() user: CreateUserDto): Promise<User> {
+    @UseGuards(AuthGuard)
+    async createUser(@Res() response, @Req() request, @Body() user: CreateUserDto): Promise<User> {
         try {
+            console.log(request.user);
             const result = await this.userService.createUser(user);
             return response.status(HttpStatus.CREATED).json({
                 message: 'User has been created successfully',
@@ -27,6 +30,7 @@ export class UserController {
     }
 
     @Patch(':id')
+    @UseGuards(AuthGuard)
     async updateUser(@Res() response, @Param('id') userId: string, @Body() user: UpdateUserDto): Promise<User> {
         try {
             const result = await this.userService.updateUser(userId, user);
@@ -44,6 +48,7 @@ export class UserController {
     }
 
     @Delete(':id')
+    @UseGuards(AuthGuard)
     async deleteUser(@Res() response, @Param('id') userId: string): Promise<User> {
         try {
             const result = await this.userService.deleteUser(userId);
@@ -61,6 +66,7 @@ export class UserController {
     }
 
     @Get()
+    @UseGuards(AuthGuard)
     async getAllUsers(@Res() response, @Query() search: ISearchUser) {
         try {
             search.from = Number(search.from);
@@ -80,6 +86,7 @@ export class UserController {
     }
 
     @Get(':id')
+    @UseGuards(AuthGuard)
     async getAUsers(@Res() response, @Param('id') userId: string) {
         try {
             const result = await this.userService.getAUser(userId);
