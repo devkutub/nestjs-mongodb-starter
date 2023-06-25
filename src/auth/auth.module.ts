@@ -4,14 +4,16 @@ import { AuthService } from './auth.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from 'src/schema/user.schema';
 import { JwtModule } from "@nestjs/jwt";
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ envFilePath: ".env" }),
     JwtModule.register({
       global: true,
-      secret: 'abc',
+      secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: '4h'
+        expiresIn: process.env.JWT_EXPIRES_IN
       }
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])

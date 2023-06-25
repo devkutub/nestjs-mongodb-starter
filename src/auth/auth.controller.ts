@@ -15,9 +15,10 @@ export class AuthController {
                 data: result
             });
         } catch (error) {
+            console.log(error)
             return response.status(error.status || HttpStatus.BAD_REQUEST).json(error.response || {
                 statusCode: 400,
-                message: 'Error: User not created!',
+                message: 'Error: Not able to log in!',
                 error: 'Bad Request'
             });
         }
