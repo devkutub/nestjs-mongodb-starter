@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MinLength, IsEmail, Length, IsDateString, Allow, IsInt, IsBoolean, IsEnum } from "class-validator";
+import { IsString, IsNotEmpty, MinLength, IsEmail, Length, IsDateString, Allow, IsInt, IsBoolean, IsEnum, IsOptional } from "class-validator";
 import { Gender } from "src/schema/user.schema";
 
 export class CreateUserDto {
@@ -31,8 +31,10 @@ export class CreateUserDto {
     readonly role: number;
 
     @IsBoolean()
-    readonly isEnabled: boolean = true;
+    @IsOptional()
+    readonly isEnabled: boolean;
 
     @IsBoolean()
-    readonly isDeleted: boolean = false;
+    @IsOptional()
+    readonly isDeleted: boolean;
 }

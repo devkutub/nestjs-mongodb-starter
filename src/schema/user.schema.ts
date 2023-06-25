@@ -32,10 +32,10 @@ export class User {
     @Prop()
     role: number;
 
-    @Prop()
+    @Prop({ default: true })
     isEnabled: boolean;
 
-    @Prop()
+    @Prop({ default: false })
     isDeleted: boolean;
 }
 
